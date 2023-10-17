@@ -3,6 +3,7 @@ import { ref, watch } from "vue"
 import Header from "./Header.vue"
 import Footer from "./Footer.vue"
 import Alert from "./Alert.vue"
+import "./App.scss"
 
 const fileInput = ref(null)
 const URLInput = ref(null)
@@ -14,7 +15,6 @@ const progress = ref(null)
 const step = ref(1)
 
 const updateFileList = (value) => (fileList.value = value)
-// const updateIsFile = (value) => (isFile.value = value)
 
 watch(fileInput, (current) => {
   if (fileList.value && current) current.files = fileList.value
@@ -89,12 +89,27 @@ function checkResponse(response) {
 }
 
 function share() {
-  jsCallNativeClickUrl.share_campaign = "h5_a20210917national"
-  jsCallNativeClickUrl.share_title = "Glorious National Day"
-  jsCallNativeClickUrl.share_desc = "Glorious National Day"
-  jsCallNativeClickUrl.share_img_url =
-    document.location.origin + BASE + "images/" + serverPath.value
-  jsCallNativeClickUrl.share()
+  const data = JSON.stringify({
+    type: "share",
+    title: "Glorious National Day",
+    desc: "Glorious National Day",
+    adjust_campaign: "h5_a20210917national",
+    url: document.location.origin + BASE + "images/" + serverPath.value
+  })
+
+  if (/android/i.test(userAgent)) {
+    if (window.IMSDK) IMSDK.jsCallNative(data)
+    else window.alert("No IMSDK JS support.")
+  } else if (/iPad|iPhone|iPod|Macintosh/.test(userAgent) && !window.MSStream) {
+    if (iOSBridge)
+      iOSBridge.callHandler("jsCallNative", data, (res) => console.log(res))
+    else window.alert("No IMSDK JS support.")
+  } else {
+    window.alert("This app not supported.")
+  }
+
+  fileList.value = null
+  URLInput.value = null
   step.value = 1
 }
 </script>
@@ -108,7 +123,6 @@ function share() {
         <div class="py-3">
           <div class="row">
             <div>
-              <!-- @click="() => updateIsFile(!isFile)" -->
               <h5 class="card-title text-accent text-center">
                 Post Images to In-Game
               </h5>
@@ -132,7 +146,7 @@ function share() {
                     :value="false"
                     v-model="isFile"
                   />
-                  <label class="cursor-pointer" for="radio2">Url</label>
+                  <label class="cursor-pointer" for="radio2">URL</label>
                 </div>
                 <input
                   v-if="isFile"
@@ -201,7 +215,7 @@ function share() {
   accent-color: var(--theme);
 }
 label {
-  margin-right: 1rem;
-  padding-left: 0.375rem;
+  padding-left: 6px;
+  margin-right: 16px;
 }
 </style>

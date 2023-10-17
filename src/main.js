@@ -1,11 +1,8 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import "./App.scss";
+import { createApp } from "vue"
+import App from "./App.vue"
+import "./ddm/theme.colors.js"
 
-createApp(App).mount("#app");
+createApp(App).mount("#app")
 
-window.onfocus = () => document.documentElement.classList.add("focused");
-window.onblur = () => document.documentElement.classList.remove("focused");
-function change({target: {files: [file]}}) {
-  console.log(file);
-}
+window.onfocus = () => document.documentElement.classList.add("focused")
+window.onblur = () => document.documentElement.classList.remove("focused")
