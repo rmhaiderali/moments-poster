@@ -1,0 +1,121 @@
+body {
+  --theme: rgb(234, 88, 12);
+  --theme-t50: rgba(234, 88, 12, 0.5);
+  --theme-t80: rgba(234, 88, 12, 0.2);
+}
+
+@import "bootstrap/scss/bootstrap";
+
+@font-face {
+  font-family: "Instagram Sans";
+  src: url("/instagramsans.ttf");
+}
+
+html,
+body {
+  font-family: "Instagram Sans";
+  height: 100%;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0 auto;
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.form-control:focus {
+  border-color: var(--theme);
+  box-shadow: 0 0 0 0.25rem var(--theme-t80);
+}
+
+.form-control:hover:not(:disabled):not([readonly])::file-selector-button {
+  background-color: var(--bs-tertiary-bg);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+html.focused ::selection {
+  color: white;
+  background: var(--theme);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.loading {
+  animation-timing-function: linear;
+  animation-name: loading;
+  animation-iteration-count: infinite;
+  animation-duration: 0.75s;
+  height: 30px;
+  width: 30px;
+}
+
+.loading > :first-child {
+  fill: none;
+  opacity: 0.2;
+  stroke-width: 4;
+  stroke: var(--theme);
+}
+
+.loading > :last-child {
+  fill: none;
+  stroke: var(--theme);
+  stroke-dasharray: 80;
+  stroke-dashoffset: 60;
+  stroke-width: 4;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.alert {
+  margin-bottom: 0;
+  padding: 8px;
+  color: var(--theme);
+  background-color: var(--theme-t80);
+  border-color: var(--theme-t50);
+}
+
+.btn-outline-accent {
+  --bs-btn-color: var(--theme);
+  --bs-btn-border-color: var(--theme);
+  --bs-btn-hover-color: white;
+  --bs-btn-hover-bg: var(--theme);
+  --bs-btn-hover-border-color: var(--theme);
+  --bs-btn-focus-shadow-rgb: transparent;
+  --bs-btn-active-color: white;
+  --bs-btn-active-bg: var(--theme);
+  --bs-btn-active-border-color: var(--theme);
+}
+
+.text-accent {
+  color: var(--theme);
+}
+
+@-moz-document url-prefix() {
+  input[type="file"] {
+    padding-right: 0;
+  }
+}
