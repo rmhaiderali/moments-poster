@@ -99,13 +99,13 @@ function share() {
 
   if (/android/i.test(userAgent)) {
     if (window.IMSDK) IMSDK.jsCallNative(data)
-    else window.alert("No IMSDK JS support.")
+    else alert.value = "No IMSDK JS support."
   } else if (/iPad|iPhone|iPod|Macintosh/.test(userAgent) && !window.MSStream) {
     if (iOSBridge)
       iOSBridge.callHandler("jsCallNative", data, (res) => console.log(res))
-    else window.alert("No IMSDK JS support.")
+    else alert.value = "No IMSDK JS support."
   } else {
-    window.alert("This app not supported.")
+    alert.value = "Current platform is not supported."
   }
 
   fileList.value = null
