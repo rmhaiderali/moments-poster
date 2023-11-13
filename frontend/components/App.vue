@@ -7,7 +7,7 @@ import "./App.scss"
 
 const fileInput = ref(null)
 const URLInput = ref(null)
-const serverPath = ref(null)
+const serverFileName = ref(null)
 const fileList = ref(null)
 const isFile = ref(true)
 const alert = ref(null)
@@ -26,7 +26,7 @@ async function fetchImg() {
 
   let response
   try {
-    response = await fetch("upload.php", {
+    response = await fetch("/upload", {
       method: "POST",
       headers: { "Content-Type": "text/url" },
       body: URLInput.value
@@ -56,7 +56,7 @@ function uploadImg() {
 
   step.value = 2
   const xhr = new XMLHttpRequest()
-  xhr.open("POST", "upload.php")
+  xhr.open("POST", "/upload")
 
   xhr.upload.onprogress = ({ loaded, total }) => {
     const value = Math.round((loaded / total) * 100)
@@ -84,7 +84,7 @@ function checkResponse(response) {
     step.value = 1
     return (alert.value = response.error)
   }
-  serverPath.value = response.file
+  serverFileName.value = response.file
   step.value = 3
 }
 
@@ -94,7 +94,7 @@ function share() {
     title: "Glorious National Day",
     desc: "Glorious National Day",
     adjust_campaign: "h5_a20210917national",
-    url: document.location.origin + BASE + "images/" + serverPath.value
+    url: document.location.origin + BASE + "images/" + serverFileName.value
   })
 
   if (/android/i.test(userAgent)) {

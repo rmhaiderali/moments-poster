@@ -1,26 +1,40 @@
 {
-  "name": "moments-poster",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "nodemon backend/server.js",
+    "build": "vite build --emptyOutDir",
+    "start": "NODE_ENV=production node backend/server.js",
+    "startwin": "SET NODE_ENV=production & node backend/server.js",
+    "startpm2": "NODE_ENV=production pm2 start backend/server.js --name=moments-poster"
   },
   "dependencies": {
+    "body-parser": "^1.20.2",
     "bootstrap": "^5.3.1",
     "color": "^4.2.3",
+    "express": "^4.18.2",
+    "file-type": "^18.5.0",
+    "got": "^13.0.0",
     "parse-css-color": "^0.2.1",
     "sass": "^1.63.4",
+    "sharp": "^0.32.6",
+    "valid-url": "^1.0.9",
+    "vite-express": "^0.11.0",
     "vue": "^3.3.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
+    "nodemon": "^3.0.1",
     "vite": "^4.4.5"
   },
   "prettier": {
     "semi": false,
     "trailingComma": "none"
+  },
+  "nodemonConfig": {
+    "watch": [
+      ".env",
+      "backend/",
+      "vite.config.js"
+    ]
   }
 }
