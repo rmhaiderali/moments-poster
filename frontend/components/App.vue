@@ -48,8 +48,8 @@ function uploadImg() {
 
   const fileType = file.type.split("/")?.[1]
 
-  if (!["jpeg", "png"].includes(fileType))
-    return (alert.value = "Only JPEG and PNG files are allowed.")
+  if (!["jpeg", "png", "webp"].includes(fileType))
+    return (alert.value = "Only JPEG PNG and WEBP files are allowed.")
 
   if (file.size > 5 * 1024 ** 2)
     return (alert.value = "Image file size should not exceed 5MB.")
