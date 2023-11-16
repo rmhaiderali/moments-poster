@@ -61,7 +61,7 @@ app.post("/upload", async (req, res, next) => {
           width: 1050,
           height: 589,
           fit: "contain",
-          background: "transparent"
+          background: "#222"
         })
         .toFile("dist/images/" + fileName)
       return res.status(200).send({ file: fileName })
