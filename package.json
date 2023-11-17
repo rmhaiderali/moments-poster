@@ -18,7 +18,7 @@
     "sass": "^1.63.4",
     "sharp": "^0.32.6",
     "valid-url": "^1.0.9",
-    "vite-express": "^0.11.0",
+    "vite-express": "^0.11.1",
     "vue": "^3.3.4"
   },
   "devDependencies": {
