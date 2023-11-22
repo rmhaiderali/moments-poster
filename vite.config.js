@@ -10,8 +10,6 @@ const base = ["/", "/moments_poster/"][0]
 export default defineConfig({
   base,
   plugins: [vue()],
-  root: "./frontend",
-  publicDir: "../public",
-  build: { target: "es6", outDir: "../dist" },
+  build: { target: "es6" },
   define: { BASE: stringer(base) }
 })
