@@ -4,8 +4,8 @@
     "dev": "nodemon src/server/index.js",
     "build": "vite build",
     "start": "NODE_ENV=production node src/server/index.js",
-    "startwin": "SET NODE_ENV=production & node src/server/index.js",
-    "startpm2": "NODE_ENV=production pm2 start src/server/index.js -n moments-poster"
+    "start:win": "SET NODE_ENV=production & node src/server/index.js",
+    "start:pm2": "NODE_ENV=production pm2 start src/server/index.js -n moments-poster"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
