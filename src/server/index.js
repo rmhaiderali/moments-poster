@@ -2,20 +2,25 @@ import crypto from "crypto"
 import got from "got"
 import express from "express"
 import ViteExpress from "vite-express"
-import bodyParser from "body-parser"
 import sharp from "sharp"
 import { fileTypeFromBuffer } from "file-type"
 import validUrl from "valid-url"
 
 class CustomError extends Error {
-  constructor(message = "Unable to process your request.", code = 500) {
+  constructor(message = "Unable to process your request.", status = 500) {
     super(message)
-    this.code = code
+    this.status = status
   }
 }
 
 const app = express()
-app.use(bodyParser.text({ type: ["text/url"] }))
+app.use(express.text({ type: "text/url", limit: "8kb" }))
+app.use((err, req, res, next) => {
+  if (err.status === 413)
+    res
+      .status(413)
+      .send({ error: "URL lenght should not exceed 8192 characters." })
+})
 
 app.post("/upload", async (req, res, next) => {
   const isURL = req.get("content-type") === "text/url"
@@ -31,13 +36,10 @@ app.post("/upload", async (req, res, next) => {
 
   stream.on("data", (chunk) => {
     size += chunk.length
+    if (res.headersSent) return
 
-    if (size > maxSize) {
-      if (isURL) stream.destroy?.()
-      return next(new CustomError("File size should not exceed 5MB.", 413))
-    } else {
-      chunks.push(chunk)
-    }
+    if (size <= maxSize) chunks.push(chunk)
+    else next(new CustomError("File size should not exceed 5MB.", 413))
   })
 
   stream.on("end", async () => {
@@ -82,10 +84,8 @@ app.post("/upload", async (req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-  if (err.status === 413)
-    res.status(413).send({ error: "Data exceeds size limit." })
-  else if (err instanceof CustomError)
-    res.status(err.code).send({ error: err.message })
+  if (err instanceof CustomError)
+    res.status(err.status).send({ error: err.message })
 })
 
 const PORT = process.env.PORT || 3002
