@@ -15,6 +15,7 @@ class CustomError extends Error {
 
 const app = express()
 app.use(express.text({ type: "text/url", limit: "8kb" }))
+
 app.use((err, req, res, next) => {
   if (err.status === 413)
     res
@@ -92,6 +93,6 @@ const PORT = process.env.PORT || 3002
 
 const server = app.listen(PORT, () => console.log("listening on port " + PORT))
 
-ViteExpress.config({ mode: process.env.NODE_ENV, ignoreBase: false })
+ViteExpress.config({ mode: process.env.NODE_ENV })
 
 ViteExpress.bind(app, server)
